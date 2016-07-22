@@ -1,0 +1,22 @@
+{
+  "name": "rest-helium",
+  "version": "1.0.0",
+  "description": "Example REST API for Helium",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "~1.0.0",
+    "express": "^4.14.0",
+    "command-line-args": "3.0.0"
+  },
+  "devDependencies": {
+    "supertest": "latest",
+    "chai": "^3.5.0",
+    "command-line-args": "latest",
+    "request": "2.72.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Levyx, Inc.",
+  "license": ""
+}

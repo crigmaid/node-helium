@@ -6,7 +6,7 @@ Must install `node-helium` somehow. Get the file or the tar.gz and npm install i
 npm install node-helium
 ```
 ## Tools
-`nodemon` makes developing and testing much easier.
+`nodemon` makes developing and testing much easier. This only matters if you plan on modifying the code.
 ```bash
 npm install -g nodemon
 ```

@@ -2,6 +2,8 @@
 Node-Helium lets you use Levyx's [Helium](http://www.levyx.com/content/helium-overview) datastore with Node.js.
 Using `node-helium` is nearly identical to using Helium, with a few notable quirks.
 
+**This is only a demo**, the package will automatically stop working after two months.
+
 ## Installing
 Download the `node-helium.tar.gz` file [here](http://packages.levyx.com/public/bindings), selecting the particular build for your operating system, then call the following.
 ```bash

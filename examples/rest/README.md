@@ -12,11 +12,15 @@ npm install -g nodemon
 ```
 
 ## Starting and Configuring
-First install all dependencies. The `node-helium` dependency must be acquired manually. 
+First install all dependencies. The `node-helium` dependency must be acquired manually.
 ```bash
 npm install
 ```
 Then copy `datastoreConfig.json.template`, name it `datastoreConfig.json` and fill it out with your own settings.  
+
+Edit the `datastoreConfig.json` file to change the open settings for the Helium datastore.
+Make sure there is a Helium server instance running. `helium --server` will start the default Helium server.
+
 To run the server, use:
 ```bash
 node server.js [ -c n ] [ -r ]
@@ -24,8 +28,6 @@ node server.js [ -c n ] [ -r ]
 **-c** The number of worker processes to run the server with.  
 **-r** Specify this to truncate the datastore on open.
 
-Edit the `datastoreConfig.json` file to change the open settings for the Helium datastore.
-Make sure there is a Helium server instance running. `helium --server` will start the default Helium server.
 
 
 # API

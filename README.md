@@ -89,8 +89,36 @@ console.log( testItem.val().toString() ); // Prints 'avocado'
 
 he.close( myHe );
 ```
+
 ## Performance Benchmarking
 Execute the following to run a performance test with `node-helium`. Substitute `he://.//tmp/4g` with your own Helium URL. Remember that Node.js is always single threaded, so the test always runs on one thread.
 ```javascript
-node testSpecial/performanceTest.js -d 'he://.//tmp/4g' -o 1000000 -v 100
+node scripts/performanceTest.js -d 'he://.//tmp/4g' -o 1000000 -v 100
 ```
+
+## Performance  
+The following shows some sample performance numbers on Google Cloud.
+
+---
+
+**GCloud n1-highcpu-32** 28.8 GB Memory  
+1x 375GB Local SSD  
+**1000000** operations | **1KB** obj size
+
+Millions of operations per sec.  
+Inserts: **0.48**  
+Seq Lookup: **0.8**  
+Rand Lookup: **0.5**  
+Deletes: **1.0**  
+
+---
+
+**GCloud n1-standard-1** 3.75 GB Memory  
+1x 375GB Local SSD  
+**1000000** operations | **1KB** obj size
+
+Millions of operations per sec.  
+Inserts: **0.35**  
+Seq Lookup: **0.75**  
+Rand Lookup: **0.4**  
+Deletes: **0.8**  

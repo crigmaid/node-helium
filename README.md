@@ -38,10 +38,8 @@ Windows
 fsutil file createnew C:\\tmp\\4g 4194304
 ```
 
-Now you can write your code, create `example.js` inside your project directory and copy-paste the following examples to it. Run the program with:
-```bash
-node example.js
-```
+Now you can write your code, create `example.js` inside your project directory and copy-paste the following examples to it. Run the program with `node example.js`
+
 
 #### Example 1
 Insert and read a simple value.

@@ -4,15 +4,21 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 
 **This is only a demo**, the package will automatically stop working after two months.
 
+## Supported Operating Systems
+* CentOS 7
+
 ## Installing
-Download the `node-helium.tar.gz` file [here](http://packages.levyx.com/public/bindings), selecting the particular build for your operating system, then call the following.
+1. Install [Node.js](https://nodejs.org/en/download/package-manager/)
+2. Create a directory for your project.
+3. Download the `node-helium.tar.gz` file [here](http://packages.levyx.com/public/bindings), selecting the particular build for your operating system, then call the following.
 ```bash
 npm install node-helium_[your os].tar.gz
 ```
+4. You should see the `node-modules` directory with `node-helium` inside it. The module is now ready.
 
 ---
 
-**For more detailed documentation**, see the `README` inside the `node-helium` package.
+**For more detailed documentation**, see the `README` inside the `node-helium` package. You may also refer to the `helium.pdf` document. Even though the PDF is for Helium's native C implementation, the functions are the same unless otherwise noted.
 
 ## Quick Usage
 Helium requires a device to write to. If you do not want to use a dedicated device, you can create a file and use it to test. The default test configuration has this file at `/tmp/4g`.
@@ -32,10 +38,11 @@ Windows
 fsutil file createnew C:\\tmp\\4g 4194304
 ```
 
-## API
-The details of the API are located in the `docs` directory.
+Now you can write your code, create `example.js` inside your project directory and copy-paste the following examples to it. Run the program with:
+```bash
+node example.js
+```
 
-Now you can write your code:
 #### Example 1
 Insert and read a simple value.
 ```javascript

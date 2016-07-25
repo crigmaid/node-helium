@@ -14,7 +14,7 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 ```bash
 npm install node-helium_[your os].tar.gz
 ```
-4. You should see the `node-modules` directory with `node-helium` inside it. The module is now ready.
+You should see the `node-modules` directory with `node-helium` inside it. The module is now ready.
 
 ---
 

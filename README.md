@@ -9,13 +9,13 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 * CentOS 7
 
 ## Installing
-1. Install [Node.js](https://nodejs.org/en/download/package-manager/) v4.x (LTS)
-2. Create a directory for your project.
-3. Download the `node-helium.tar.gz` file [here](http://packages.levyx.com/public/bindings), selecting the particular build for your operating system.
+* Install [Node.js](https://nodejs.org/en/download/package-manager/) v4.x (LTS)
+* Create a directory for your project.
+* Download the `node-helium.tar.gz` file [here](http://packages.levyx.com/public/bindings), selecting the particular build for your operating system.
 ```bash
   Centos7 ------> wget http://packages.levyx.com/public/bindings/node-helium_centos7.tar.gz
 ```
-4. Then call the following.
+* Then call the following.
 ```bash
 npm install node-helium_[your os].tar.gz
 ```

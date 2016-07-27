@@ -11,7 +11,11 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 ## Installing
 1. Install [Node.js](https://nodejs.org/en/download/package-manager/) v4.x (LTS)
 2. Create a directory for your project.
-3. Download the `node-helium.tar.gz` file [here](http://packages.levyx.com/public/bindings), selecting the particular build for your operating system, then call the following.
+3. Download the `node-helium.tar.gz` file [here](http://packages.levyx.com/public/bindings), selecting the particular build for your operating system.
+```bash
+  Centos7 ------> wget http://packages.levyx.com/public/bindings/node-helium_centos7.tar.gz
+```
+4. Then call the following.
 ```bash
 npm install node-helium_[your os].tar.gz
 ```
@@ -98,6 +102,9 @@ console.log( testItem.val().toString() ); // Prints 'avocado'
 he.close( myHe );
 ```
 
+#### REST Example
+See the [`examples`](https://github.com/levyx/node-helium/tree/master/examples/rest) directory of this repo.
+
 ## Performance Benchmarking
 Execute the following to run a performance test with `node-helium`. Substitute `he://.//tmp/4g` with your own Helium URL. Remember that Node.js is always single threaded, so the test always runs on one thread.
 ```javascript
@@ -113,11 +120,11 @@ The following shows some sample performance numbers on Google Cloud.
 1x 375GB Local SSD  
 **1000000** operations | **1KB** obj size
 
-Millions of operations per sec.  
-Inserts: **0.48**  
-Seq Lookup: **0.8**  
-Rand Lookup: **0.5**  
-Deletes: **1.0**  
+Operations per sec.  
+Inserts: **480K**  
+Seq Lookup: **800K**  
+Rand Lookup: **500K**  
+Deletes: **1000K**  
 
 ---
 
@@ -126,10 +133,10 @@ Deletes: **1.0**
 **1000000** operations | **1KB** obj size
 
 Millions of operations per sec.  
-Inserts: **0.35**  
-Seq Lookup: **0.75**  
-Rand Lookup: **0.4**  
-Deletes: **0.8**  
+Inserts: **350K**  
+Seq Lookup: **750K**  
+Rand Lookup: **400K**  
+Deletes: **800K**  
 
 
 ## API Usage

@@ -310,4 +310,4 @@ The references are the same, but the objects are not!
 
 
 # Issues/Bugs?
-Create an issue on this repo, or email `info@levyx.com`
+Create an issue on this repo, or email `nodejs@levyx.com`

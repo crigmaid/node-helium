@@ -3,17 +3,17 @@
 Node-Helium lets you use Levyx's [Helium](http://www.levyx.com/content/helium-overview) datastore with Node.js.
 Using `node-helium` is nearly identical to using Helium, with a few notable quirks.
 
-**This is only a demo**, the package will automatically stop working after two months.
+**This is a trial version**, the package will automatically stop working after two months.
 
 ## Supported Operating Systems
-* CentOS 7
+* CentOS 7.x and RHEL 7.x
 
 ## Installing
 * Install [Node.js](https://nodejs.org/en/download/package-manager/) v4.x (LTS)
 * Create a directory for your project.
 * Download the `node-helium.tar.gz` file [here](http://packages.levyx.com/public/bindings), selecting the particular build for your operating system.
 ```bash
-  Centos7 ------> wget http://packages.levyx.com/public/bindings/node-helium_centos7.tar.gz
+  wget http://packages.levyx.com/public/bindings/node-helium_centos7.tar.gz
 ```
 * Then call the following.
 ```bash
@@ -146,44 +146,6 @@ However, there are some important differences in the Node.js API. Keep the follo
 2. Javascript does not have structs. So things that are structs tend to be objects.
 3. Not all objects in `node-helium` are 'real' Javascript objects. They are pointers to special objects that can be passed between Javascript and C, so you cannot directly access their properties, you must use their functions to get and set values. Look at `he_item`.
 
-Each of the API items are located in their respective documentation files. (e.g. details on `he_item` are in `he_item.md`)
-
----
-
-Buffers and pointers in Node.js have some quirks. Javascript likes to aggressively garbage collect, so if you reassign the buffer pointer of an item, you will get strange results.
-```javascript
-var myKey = new Buffer( 'peanutbutter', 'utf-8' );
-var myVal = new Buffer( 'jelly', 'utf-8' );
-var testItem = he.make_item( myKey, myVal, 12, 5 );
-he.insert( myHe, testItem );
-
-myKey = new Buffer( 'peanutbutter', 'utf-8' ); // CAUTION
-myVal = new Buffer( 50 ); // CAUTION
-he.lookup( myHe, testItem, 0, 5 );
-
-console.log( myVal.toString( 'utf-8', 0, 5 ) ); // This will print NOTHING, you would expect 'jelly'
-console.log( testItem.val().toString( 'utf-8', 0, 5 ) ); // But this WILL print 'jelly'
-```
-
----
-
-`key()` and `val()` functions for `he_item` will return a buffer with a length set to the size of the `he_item`'s current `key_len` and `val_len` respectively. But the buffer will still point to the **same** data used to construct the `he_item` initially. The following example illustrates this.
-```javascript
-var myKey = new Buffer( 'peanutbutter', 'utf-8' );
-var myVal = new Buffer( 'jelly', 'utf-8' );
-var testItem = he.make_item( myKey, myVal, 12, 5 );
-
-testItem.set_val_len( 3 );
-
-console.log( testItem.val().toString() ); // This will print 'jel'
-
-testItem.val().write( 'rocks' );
-
-console.log( testItem.val().toString() ); // This will print 'roc' from the `testItem.val()`
-console.log( myVal.toString() ); // This will print 'rocly' from the `myVal` buffer....what!?
-```
-Notice how `val()` only returns part of the `he_item` value, but still points to the original data used in `myVal`.
-The references are the same, but the objects are not!
 ## he\_enumerate
 Works as expected, just provide a javascript function for the callback.
 ```javascript
@@ -309,5 +271,48 @@ for ( var i = 0; i < 1000000; ++i ) {
   // ...
   // rest of code down here
 
+
 }
 ```
+
+---
+
+Buffers and pointers in Node.js have some quirks. Javascript likes to aggressively garbage collect, so if you reassign the buffer pointer of an item, you will get strange results.
+```javascript
+var myKey = new Buffer( 'peanutbutter', 'utf-8' );
+var myVal = new Buffer( 'jelly', 'utf-8' );
+var testItem = he.make_item( myKey, myVal, 12, 5 );
+he.insert( myHe, testItem );
+
+myKey = new Buffer( 'peanutbutter', 'utf-8' ); // Do not reassign myKey to a new buffer.
+myVal = new Buffer( 50 ); // Do not reassign myVal to a new buffer
+he.lookup( myHe, testItem, 0, 5 );
+
+console.log( myVal.toString( 'utf-8', 0, 5 ) ); // This will print NOTHING, you would expect 'jelly'
+console.log( testItem.val().toString( 'utf-8', 0, 5 ) ); // But this WILL print 'jelly'
+```
+In summary, do not reassign buffers, instead, just rewrite to the buffers you initially assigned (see example 2 above).
+
+---
+
+`key()` and `val()` functions for `he_item` will return a buffer with a length set to the size of the `he_item`'s current `key_len` and `val_len` respectively. But the buffer will still point to the **same** data used to construct the `he_item` initially. The following example illustrates this.
+```javascript
+var myKey = new Buffer( 'peanutbutter', 'utf-8' );
+var myVal = new Buffer( 'jelly', 'utf-8' );
+var testItem = he.make_item( myKey, myVal, 12, 5 );
+
+testItem.set_val_len( 3 );
+
+console.log( testItem.val().toString() ); // This will print 'jel'
+
+testItem.val().write( 'rocks' );
+
+console.log( testItem.val().toString() ); // This will print 'roc' from the `testItem.val()`
+console.log( myVal.toString() ); // This will print 'rocly' from the `myVal` buffer....what!?
+```
+Notice how `val()` only returns part of the `he_item` value, but still points to the original data used in `myVal`.
+The references are the same, but the objects are not!
+
+
+# Issues/Bugs?
+Create an issue on this repo, or email `info@levyx.com`

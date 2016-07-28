@@ -134,11 +134,12 @@ Deletes: **800K**
 
 
 ## API Usage
-`node-helium` shares most of its documentation with the Helium library it is based on. Use Helium's documentation for the full details on individual functions.  
-However, there are some important differences in the Node.js API. Keep the following concepts in mind:
+**Look at Helium.pdf**, it details how Helium works. Most of `node-helium`'s functions are the same as Helium's native C API, however, there are some important differences:
 1. `node-helium` makes use of a C style api. This means the javascript API looks very similar to Helium's native C API.
 2. Javascript does not have structs. So things that are structs tend to be objects.
 3. Not all objects in `node-helium` are 'real' Javascript objects. They are pointers to special objects that can be passed between Javascript and C, so you cannot directly access their properties, you must use their functions to get and set values. Look at `he_item`.
+
+Below are specific functions that are different or unique to `node-helium`.
 
 ## he\_enumerate
 Works as expected, just provide a javascript function for the callback.

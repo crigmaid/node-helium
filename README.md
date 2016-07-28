@@ -15,11 +15,13 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 ```bash
   wget http://packages.levyx.com/public/bindings/node-helium_centos7.tar.gz
 ```
-* Then call the following.
+* Then call the following. If you downloaded a package for a different OS, change the filename after `install`
 ```bash
-npm install node-helium_[your os].tar.gz
+npm install node-helium_centos7.tar.gz
 ```
-You should see the `node-modules` directory with `node-helium` inside it. The module is now ready.
+* You will be presented with a EULA, you can press `q` to skip to the end. Agree and follow the prompts to continue the installation.
+
+* You should now see the `node-modules` directory with `node-helium` inside it. The module is ready.
 
 ---
 
@@ -28,22 +30,14 @@ You should see the `node-modules` directory with `node-helium` inside it. The mo
 ## Quick Usage
 Helium requires a device to write to. If you do not want to use a dedicated device, you can create a file and use it to test. The default test configuration has this file at `/tmp/4g`.
 
-Linux:
-```bash
-truncate -s 4g /tmp/4g
-```
-
-Mac, BSD, misc. POSIX:
 ```bash
 dd if=/dev/zero of=/tmp/4g bs=1k count=$((4 * 1024 * 1024))
 ```
 
-Windows
-```batch
-fsutil file createnew C:\\tmp\\4g 4194304
+Now you can write your code, create `example.js` inside your project directory and copy-paste the following examples to it. Run the program with:
+```bash
+node example.js
 ```
-
-Now you can write your code, create `example.js` inside your project directory and copy-paste the following examples to it. Run the program with `node example.js`
 
 
 #### Example 1

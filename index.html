@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Node-helium by levyx</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Node-helium</h1>
+      <h2 class="project-tagline">NodeJS front end for Helium key-value store</h2>
+      <a href="https://github.com/levyx/node-helium" class="btn">View on GitHub</a>
+      <a href="https://github.com/levyx/node-helium/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/levyx/node-helium/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><img src="node-heliumLogo.png" alt="Node-Helium logo"></p>
+
+<h1>
+<a id="node-helium" class="anchor" href="#node-helium" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>node-helium</h1>
+
+<p>Node-Helium lets you use Levyx's <a href="http://www.levyx.com/content/helium-overview">Helium</a> datastore with Node.js.
+Using <code>node-helium</code> is nearly identical to using Helium, with a few notable quirks.</p>
+
+<p><strong>This is a trial version</strong>, the package will automatically stop working after two months.</p>
+
+<h2>
+<a id="supported-operating-systems" class="anchor" href="#supported-operating-systems" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported Operating Systems</h2>
+
+<ul>
+<li>CentOS 7.x and RHEL 7.x</li>
+</ul>
+
+<h2>
+<a id="installing" class="anchor" href="#installing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installing</h2>
+
+<ul>
+<li>Install <a href="https://nodejs.org/en/download/package-manager/">Node.js</a> v4.x (LTS)</li>
+<li>Create a directory for your project.</li>
+<li>Download the <code>node-helium.tar.gz</code> file <a href="http://packages.levyx.com/public/bindings">here</a>, selecting the particular build for your operating system.</li>
+</ul>
+
+<div class="highlight highlight-source-shell"><pre>  wget http://packages.levyx.com/public/bindings/node-helium_centos7.tar.gz</pre></div>
+
+<ul>
+<li>Then call the following. If you downloaded a package for a different OS, change the filename after <code>install</code>
+</li>
+</ul>
+
+<div class="highlight highlight-source-shell"><pre>npm install node-helium_centos7.tar.gz</pre></div>
+
+<ul>
+<li><p>You will be presented with a EULA, you can press <code>q</code> to skip to the end. Agree and follow the prompts to continue the installation.</p></li>
+<li><p>You should now see the <code>node-modules</code> directory with <code>node-helium</code> inside it. The module is ready.</p></li>
+</ul>
+
+<hr>
+
+<p><strong>For more detailed documentation</strong>, see the <code>README</code> inside the <code>node-helium</code> package. You may also refer to the <code>helium.pdf</code> document. Even though the PDF is for Helium's native C implementation, the functions are the same unless otherwise noted.</p>
+
+<h2>
+<a id="quick-usage" class="anchor" href="#quick-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Usage</h2>
+
+<p>Helium requires a device to write to. If you do not want to use a dedicated device, you can create a file and use it to test. The default test configuration has this file at <code>/tmp/4g</code>.</p>
+
+<div class="highlight highlight-source-shell"><pre>dd if=/dev/zero of=/tmp/4g bs=1k count=<span class="pl-s"><span class="pl-pds">$((</span><span class="pl-c1">4</span> <span class="pl-k">*</span> <span class="pl-c1">1024</span> <span class="pl-k">*</span> <span class="pl-c1">1024</span><span class="pl-pds">))</span></span></pre></div>
+
+<p>Now you can write your code, create <code>example.js</code> inside your project directory and copy-paste the following examples to it. Run the program with:</p>
+
+<div class="highlight highlight-source-shell"><pre>node example.js</pre></div>
+
+<h4>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 1</h4>
+
+<p>Insert and read a simple value.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> he <span class="pl-k">=</span> <span class="pl-c1">require</span>( <span class="pl-s"><span class="pl-pds">'</span>node-helium<span class="pl-pds">'</span></span> );
+
+<span class="pl-k">var</span> <span class="pl-c1">OPEN_SETTINGS</span> <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_TRUNCATE</span>;
+
+<span class="pl-k">var</span> myHe <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">open</span>( <span class="pl-s"><span class="pl-pds">'</span>he://.//tmp/4g<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>DATASTORE<span class="pl-pds">'</span></span>, <span class="pl-c1">OPEN_SETTINGS</span>, <span class="pl-c1">null</span> );
+
+<span class="pl-k">var</span> myKey <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>peanutbutter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> myVal <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>jelly<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> testItem <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">make_item</span>( myKey, myVal, <span class="pl-c1">12</span>, <span class="pl-c1">5</span> );
+<span class="pl-smi">he</span>.<span class="pl-en">insert</span>( myHe, testItem );
+
+<span class="pl-k">var</span> lookKey <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>peanutbutter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> receiveBuf <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-c1">50</span> );
+<span class="pl-k">var</span> lookupItem <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">make_item</span>( lookKey, receiveBuf, <span class="pl-c1">12</span>, <span class="pl-c1">5</span> );
+<span class="pl-smi">he</span>.<span class="pl-en">lookup</span>( myHe, lookupItem, <span class="pl-c1">0</span>, <span class="pl-c1">5</span> );
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>( <span class="pl-smi">receiveBuf</span>.<span class="pl-c1">toString</span>( <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span>, <span class="pl-c1">0</span>, <span class="pl-c1">5</span> ) ); <span class="pl-c">// This will be 'jelly'</span>
+
+<span class="pl-smi">he</span>.<span class="pl-c1">close</span>( myHe );</pre></div>
+
+<h4>
+<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 2</h4>
+
+<p>Working with transactions. This example has more advanced usage, namely reuse of buffers.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> he <span class="pl-k">=</span> <span class="pl-c1">require</span>( <span class="pl-s"><span class="pl-pds">'</span>node-helium<span class="pl-pds">'</span></span> );
+
+<span class="pl-k">var</span> <span class="pl-c1">OPEN_SETTINGS</span> <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_TRUNCATE</span>;
+
+<span class="pl-k">var</span> myHe <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">open</span>( <span class="pl-s"><span class="pl-pds">'</span>he://.//tmp/4g<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>DATASTORE<span class="pl-pds">'</span></span>, <span class="pl-c1">OPEN_SETTINGS</span>, <span class="pl-c1">null</span> );
+
+<span class="pl-k">var</span> keyBuf <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-c1">50</span> );
+<span class="pl-k">var</span> valBuf <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-c1">50</span> );
+
+<span class="pl-smi">keyBuf</span>.<span class="pl-c1">write</span>( <span class="pl-s"><span class="pl-pds">'</span>peanutbutter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-smi">valBuf</span>.<span class="pl-c1">write</span>( <span class="pl-s"><span class="pl-pds">'</span>jelly<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> testItem <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">make_item</span>( keyBuf, valBuf, <span class="pl-c1">12</span>, <span class="pl-c1">5</span> );
+
+<span class="pl-smi">he</span>.<span class="pl-en">insert</span>( myHe, testItem );
+
+<span class="pl-k">var</span> myTransaction <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">transaction</span>( myHe );
+
+<span class="pl-smi">valBuf</span>.<span class="pl-c1">write</span>( <span class="pl-s"><span class="pl-pds">'</span>avocado<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-smi">testItem</span>.<span class="pl-en">set_val_len</span>( <span class="pl-c1">7</span> );
+<span class="pl-smi">he</span>.<span class="pl-en">update</span>( myTransaction, testItem );
+
+<span class="pl-smi">he</span>.<span class="pl-en">commit</span>( myTransaction );
+
+<span class="pl-k">var</span> ret <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">lookup</span>( myHe, testItem, <span class="pl-c1">0</span>, <span class="pl-c1">7</span> );
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>( <span class="pl-smi">testItem</span>.<span class="pl-en">val</span>().<span class="pl-c1">toString</span>() ); <span class="pl-c">// Prints 'avocado'</span>
+
+<span class="pl-smi">he</span>.<span class="pl-c1">close</span>( myHe );</pre></div>
+
+<h4>
+<a id="rest-example" class="anchor" href="#rest-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>REST Example</h4>
+
+<p>See the <a href="https://github.com/levyx/node-helium/tree/master/examples/rest"><code>examples</code></a> directory of this repo.</p>
+
+<h2>
+<a id="performance-benchmarking" class="anchor" href="#performance-benchmarking" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Performance Benchmarking</h2>
+
+<p>Execute the following to run a performance test with <code>node-helium</code>. Substitute <code>he://.//tmp/4g</code> with your own Helium URL. Remember that Node.js is always single threaded, so the test always runs on one thread.</p>
+
+<div class="highlight highlight-source-js"><pre>node scripts<span class="pl-k">/</span><span class="pl-smi">performanceTest</span>.<span class="pl-smi">js</span> <span class="pl-k">-</span>d <span class="pl-s"><span class="pl-pds">'</span>he://.//tmp/4g<span class="pl-pds">'</span></span> <span class="pl-k">-</span>o <span class="pl-c1">1000000</span> <span class="pl-k">-</span>v <span class="pl-c1">100</span></pre></div>
+
+<h2>
+<a id="performance" class="anchor" href="#performance" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Performance</h2>
+
+<p>The following shows some sample performance numbers on Google Cloud.</p>
+
+<hr>
+
+<p><strong>GCloud n1-highcpu-32</strong> 28.8 GB Memory<br>
+1x 375GB Local SSD<br>
+<strong>1000000</strong> operations | <strong>1KB</strong> obj size</p>
+
+<p>Operations per sec.<br>
+Inserts: <strong>480K</strong><br>
+Seq Lookup: <strong>800K</strong><br>
+Rand Lookup: <strong>500K</strong><br>
+Deletes: <strong>1000K</strong>  </p>
+
+<hr>
+
+<p><strong>GCloud n1-standard-1</strong> 3.75 GB Memory<br>
+1x 375GB Local SSD<br>
+<strong>1000000</strong> operations | <strong>1KB</strong> obj size</p>
+
+<p>Millions of operations per sec.<br>
+Inserts: <strong>350K</strong><br>
+Seq Lookup: <strong>750K</strong><br>
+Rand Lookup: <strong>400K</strong><br>
+Deletes: <strong>800K</strong>  </p>
+
+<h2>
+<a id="api-usage" class="anchor" href="#api-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API Usage</h2>
+
+<p><strong>Look at Helium.pdf</strong>, it details how Helium works. Most of <code>node-helium</code>'s functions are the same as Helium's native C API, however, there are some important differences:
+1. <code>node-helium</code> makes use of a C style api. This means the javascript API looks very similar to Helium's native C API.
+2. Javascript does not have structs. So things that are structs tend to be objects.
+3. Not all objects in <code>node-helium</code> are 'real' Javascript objects. They are pointers to special objects that can be passed between Javascript and C, so you cannot directly access their properties, you must use their functions to get and set values. Look at <code>he_item</code>.</p>
+
+<p>Below are specific functions that are different or unique to <code>node-helium</code>.</p>
+
+<h2>
+<a id="he_enumerate" class="anchor" href="#he_enumerate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>he_enumerate</h2>
+
+<p>Works as expected, just provide a javascript function for the callback.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> he <span class="pl-k">=</span> <span class="pl-c1">require</span>( <span class="pl-s"><span class="pl-pds">'</span>node-helium<span class="pl-pds">'</span></span> );
+
+<span class="pl-k">var</span> <span class="pl-c1">OPEN_SETTINGS</span> <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_TRUNCATE</span>;
+<span class="pl-k">var</span> myHe <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">open</span>( <span class="pl-s"><span class="pl-pds">'</span>he://.//tmp/4g<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>DATA1<span class="pl-pds">'</span></span>, <span class="pl-c1">OPEN_SETTINGS</span>, <span class="pl-c1">null</span> );
+<span class="pl-k">var</span> myHe2 <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">open</span>( <span class="pl-s"><span class="pl-pds">'</span>he://.//tmp/4g<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>DATA2<span class="pl-pds">'</span></span>, <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_CREATE</span>, <span class="pl-c1">null</span> );
+
+<span class="pl-k">var</span> <span class="pl-en">callback</span> <span class="pl-k">=</span> <span class="pl-k">function</span>( <span class="pl-smi">err</span>, <span class="pl-smi">datastoreList</span> ) {
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>( datastoreList ); <span class="pl-c">// datastoreList is a list of datastore names.</span>
+}
+
+<span class="pl-k">var</span> ret <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">enumerate</span>( <span class="pl-s"><span class="pl-pds">'</span>he://.//tmp/4g<span class="pl-pds">'</span></span>, callback );
+
+<span class="pl-smi">he</span>.<span class="pl-c1">close</span>( myHe );
+<span class="pl-smi">he</span>.<span class="pl-c1">close</span>( myHe2 );</pre></div>
+
+<h2>
+<a id="he_item" class="anchor" href="#he_item" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>he_item</h2>
+
+<p><code>he_item</code> structs in Helium need to be built by a function in <code>node-helium</code>.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> keyBuf <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-c1">50</span> );
+<span class="pl-k">var</span> valBuf <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-c1">50</span> );
+<span class="pl-smi">keyBuf</span>.<span class="pl-c1">write</span>( <span class="pl-s"><span class="pl-pds">'</span>peanutbutter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-smi">valBuf</span>.<span class="pl-c1">write</span>( <span class="pl-s"><span class="pl-pds">'</span>jelly<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> testItem <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">make_item</span>( keyBuf, valBuf, <span class="pl-c1">12</span>, <span class="pl-c1">5</span> ); <span class="pl-c">// testItem can be used like he_item</span>
+
+<span class="pl-smi">testItem</span>.<span class="pl-en">key</span>(); <span class="pl-c">// Gets the key buffer, size determined by the key_len value of the item.</span>
+<span class="pl-smi">testItem</span>.<span class="pl-en">val</span>(); <span class="pl-c">// Gets the value buffer, size determined by the val_len value of the item.</span>
+<span class="pl-smi">testItem</span>.<span class="pl-en">key</span>( <span class="pl-c1">5</span> ); <span class="pl-c">// Gets 5 bytes of the key buffer.</span>
+<span class="pl-smi">testItem</span>.<span class="pl-en">val</span>( <span class="pl-c1">5</span> ); <span class="pl-c">// Gets 5 bytes of the val buffer.</span>
+<span class="pl-smi">testItem</span>.<span class="pl-en">key_len</span>(); <span class="pl-c">// Gets the key length associated with the item.</span>
+<span class="pl-smi">testItem</span>.<span class="pl-en">val_len</span>(); <span class="pl-c">// Gets the val length associated with the item.</span>
+<span class="pl-smi">testItem</span>.<span class="pl-en">set_key_len</span>( <span class="pl-c1">5</span> ); <span class="pl-c">// Set the key length to 5.</span>
+<span class="pl-smi">testItem</span>.<span class="pl-en">set_val_len</span>( <span class="pl-c1">5</span> ); <span class="pl-c">// Set the val length to 5.</span>
+
+<span class="pl-c">// Only write to buffers you get with key() or val(), do not set them.</span>
+<span class="pl-smi">testItem</span>.<span class="pl-en">key</span>() <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>peanutbutter<span class="pl-pds">'</span></span> ); <span class="pl-c">// DO NOT DO THIS!</span>
+<span class="pl-smi">testItem</span>.<span class="pl-en">key</span>().<span class="pl-c1">write</span>( <span class="pl-s"><span class="pl-pds">'</span>peanutbutter<span class="pl-pds">'</span></span> ); <span class="pl-c">// Do this instead.</span></pre></div>
+
+<h2>
+<a id="he_iterate" class="anchor" href="#he_iterate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>he_iterate</h2>
+
+<p>The <code>he_iterate</code> function is indirectly supported though the <code>func.iterate</code> function which implements the iteration logic with the <code>he_next</code> Helium command. Even though <code>he_item</code> is not returned, <code>key</code> and <code>val</code> still point to the buffers in the <code>he_item</code>, so modifying them will update the underlying <code>he_item</code>.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> he <span class="pl-k">=</span> <span class="pl-c1">require</span>( <span class="pl-s"><span class="pl-pds">'</span>node-helium<span class="pl-pds">'</span></span> );
+
+<span class="pl-k">var</span> <span class="pl-c1">OPEN_SETTINGS</span> <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_TRUNCATE</span>;
+<span class="pl-k">var</span> myHe <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">open</span>( <span class="pl-s"><span class="pl-pds">'</span>he://.//tmp/4g<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>DATASTORE<span class="pl-pds">'</span></span>, <span class="pl-c1">OPEN_SETTINGS</span>, <span class="pl-c1">null</span> );
+
+<span class="pl-k">var</span> myKey <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>aaaa<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> myVal <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>11111<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> testItem <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">make_item</span>( myKey, myVal, <span class="pl-c1">4</span>, <span class="pl-c1">5</span> );
+<span class="pl-smi">he</span>.<span class="pl-en">insert</span>( myHe, testItem );
+
+<span class="pl-k">var</span> myKey2 <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>bbbb<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> myVal2 <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>22222<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> testItem2 <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">make_item</span>( myKey2, myVal2, <span class="pl-c1">4</span>, <span class="pl-c1">5</span> );
+<span class="pl-smi">he</span>.<span class="pl-en">insert</span>( myHe, testItem2 );
+
+<span class="pl-k">var</span> myKey3 <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>cccc<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> myVal3 <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>33333<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> testItem3 <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">make_item</span>( myKey3, myVal3, <span class="pl-c1">4</span>, <span class="pl-c1">5</span> );
+<span class="pl-smi">he</span>.<span class="pl-en">insert</span>( myHe, testItem3 );
+
+<span class="pl-k">var</span> counter <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+<span class="pl-smi">he</span>.<span class="pl-smi">func</span>.<span class="pl-en">iterate</span>( myHe, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-k">function</span>( <span class="pl-smi">keySize</span>, <span class="pl-smi">valueSize</span>, <span class="pl-smi">key</span>, <span class="pl-smi">val</span> ) {
+  <span class="pl-c">// This will execute once for every key in the datastore.</span>
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>( <span class="pl-smi">key</span>.<span class="pl-c1">toString</span>() );
+});
+
+<span class="pl-smi">he</span>.<span class="pl-c1">close</span>( myHe );</pre></div>
+
+<h2>
+<a id="he_open" class="anchor" href="#he_open" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>he_open</h2>
+
+<p>Use a javascript object for the <code>he_env</code> struct options.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> he <span class="pl-k">=</span> <span class="pl-c1">require</span>( <span class="pl-s"><span class="pl-pds">'</span>node-helium<span class="pl-pds">'</span></span> );
+
+<span class="pl-k">var</span> <span class="pl-c1">OPEN_SETTINGS</span> <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_TRUNCATE</span>;
+<span class="pl-k">var</span> myHe <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">open</span>( <span class="pl-s"><span class="pl-pds">'</span>he://.//tmp/4g<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>DATASTORE<span class="pl-pds">'</span></span>, <span class="pl-c1">OPEN_SETTINGS</span>, {<span class="pl-s"><span class="pl-pds">'</span>fanout<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c1">30</span>, <span class="pl-s"><span class="pl-pds">'</span>retry_count<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c1">400</span>} );
+
+<span class="pl-smi">he</span>.<span class="pl-c1">close</span>( myHe );</pre></div>
+
+<h2>
+<a id="he_stats" class="anchor" href="#he_stats" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>he_stats</h2>
+
+<p>Returns a javascript object with the info. On error, this function will return an object with <code>error</code> property set accordingly.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> he <span class="pl-k">=</span> <span class="pl-c1">require</span>( <span class="pl-s"><span class="pl-pds">'</span>node-helium<span class="pl-pds">'</span></span> );
+
+<span class="pl-k">var</span> <span class="pl-c1">OPEN_SETTINGS</span> <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_CREATE</span> <span class="pl-k">|</span> <span class="pl-smi">he</span>.<span class="pl-c1">HE_O_VOLUME_TRUNCATE</span>;
+<span class="pl-k">var</span> myHe <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-c1">open</span>( <span class="pl-s"><span class="pl-pds">'</span>he://.//tmp/4g<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>DATASTORE<span class="pl-pds">'</span></span>, <span class="pl-c1">OPEN_SETTINGS</span>, <span class="pl-c1">null</span> );
+
+<span class="pl-k">var</span> myKey <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>peanutbutter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> myVal <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>jelly<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> testItem <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">make_item</span>( myKey, myVal, <span class="pl-c1">12</span>, <span class="pl-c1">5</span> );
+<span class="pl-smi">he</span>.<span class="pl-en">insert</span>( myHe, testItem );
+
+<span class="pl-k">var</span> stats <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">stats</span>( myHe );
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>( stats ); <span class="pl-c">// Will print out the stats object.</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>( <span class="pl-smi">stats</span>.<span class="pl-c1">name</span> ); <span class="pl-c">// Will print out 'DATASTORE'.</span>
+
+<span class="pl-smi">he</span>.<span class="pl-c1">close</span>( myHe );
+
+<span class="pl-k">var</span> errorStats <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">stats</span>( myHe ); <span class="pl-c">// Calling this again after closing the datastore will fail.</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>( <span class="pl-smi">errorStats</span>.<span class="pl-smi">error</span> ); <span class="pl-c">// This will equal the error code</span></pre></div>
+
+<h2>
+<a id="he_version" class="anchor" href="#he_version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>he_version</h2>
+
+<p>Takes no arguments for simplicity. Will return a string with the version of Helium node-helium is using.</p>
+
+<h2>
+<a id="common-errors" class="anchor" href="#common-errors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Common Errors</h2>
+
+<h4>
+<a id="i-seem-to-get-he_err_item_not_found-when-i-have-biggermore-keys-even-though-my-code-is-the-same" class="anchor" href="#i-seem-to-get-he_err_item_not_found-when-i-have-biggermore-keys-even-though-my-code-is-the-same" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>I seem to get <code>HE_ERR_ITEM_NOT_FOUND</code> when I have bigger/more keys even though my code is the same.</h4>
+
+<p>Make sure you use <code>item.set_key_len()</code> if you change the value of an item's key after it is created.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">for</span> ( <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> <span class="pl-c1">1000000</span>; <span class="pl-k">++</span>i ) {
+  <span class="pl-k">var</span> keyString <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>key_<span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-smi">i</span>.<span class="pl-c1">toString</span>();
+  <span class="pl-smi">testItem</span>.<span class="pl-en">set_key_len</span>( <span class="pl-smi">keyString</span>.<span class="pl-c1">length</span> ); <span class="pl-c">// THIS LINE IS IMPORTANT!</span>
+  <span class="pl-smi">myKey</span>.<span class="pl-c1">write</span>( keyString, <span class="pl-c1">0</span> ); <span class="pl-c">// ...Since we are changing the length of the key when `i` gets big.</span>
+
+  <span class="pl-c">//</span>
+  <span class="pl-c">// ...</span>
+  <span class="pl-c">// rest of code down here</span>
+
+
+}</pre></div>
+
+<hr>
+
+<p>Buffers and pointers in Node.js have some quirks. Javascript likes to aggressively garbage collect, so if you reassign the buffer pointer of an item, you will get strange results.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> myKey <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>peanutbutter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> myVal <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>jelly<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> testItem <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">make_item</span>( myKey, myVal, <span class="pl-c1">12</span>, <span class="pl-c1">5</span> );
+<span class="pl-smi">he</span>.<span class="pl-en">insert</span>( myHe, testItem );
+
+myKey <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>peanutbutter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> ); <span class="pl-c">// Do not reassign myKey to a new buffer.</span>
+myVal <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-c1">50</span> ); <span class="pl-c">// Do not reassign myVal to a new buffer</span>
+<span class="pl-smi">he</span>.<span class="pl-en">lookup</span>( myHe, testItem, <span class="pl-c1">0</span>, <span class="pl-c1">5</span> );
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>( <span class="pl-smi">myVal</span>.<span class="pl-c1">toString</span>( <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span>, <span class="pl-c1">0</span>, <span class="pl-c1">5</span> ) ); <span class="pl-c">// This will print NOTHING, you would expect 'jelly'</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>( <span class="pl-smi">testItem</span>.<span class="pl-en">val</span>().<span class="pl-c1">toString</span>( <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span>, <span class="pl-c1">0</span>, <span class="pl-c1">5</span> ) ); <span class="pl-c">// But this WILL print 'jelly'</span></pre></div>
+
+<p>In summary, do not reassign buffers, instead, just rewrite to the buffers you initially assigned (see example 2 above).</p>
+
+<hr>
+
+<p><code>key()</code> and <code>val()</code> functions for <code>he_item</code> will return a buffer with a length set to the size of the <code>he_item</code>'s current <code>key_len</code> and <code>val_len</code> respectively. But the buffer will still point to the <strong>same</strong> data used to construct the <code>he_item</code> initially. The following example illustrates this.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> myKey <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>peanutbutter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> myVal <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>( <span class="pl-s"><span class="pl-pds">'</span>jelly<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span> );
+<span class="pl-k">var</span> testItem <span class="pl-k">=</span> <span class="pl-smi">he</span>.<span class="pl-en">make_item</span>( myKey, myVal, <span class="pl-c1">12</span>, <span class="pl-c1">5</span> );
+
+<span class="pl-smi">testItem</span>.<span class="pl-en">set_val_len</span>( <span class="pl-c1">3</span> );
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>( <span class="pl-smi">testItem</span>.<span class="pl-en">val</span>().<span class="pl-c1">toString</span>() ); <span class="pl-c">// This will print 'jel'</span>
+
+<span class="pl-smi">testItem</span>.<span class="pl-en">val</span>().<span class="pl-c1">write</span>( <span class="pl-s"><span class="pl-pds">'</span>rocks<span class="pl-pds">'</span></span> );
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>( <span class="pl-smi">testItem</span>.<span class="pl-en">val</span>().<span class="pl-c1">toString</span>() ); <span class="pl-c">// This will print 'roc' from the `testItem.val()`</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>( <span class="pl-smi">myVal</span>.<span class="pl-c1">toString</span>() ); <span class="pl-c">// This will print 'rocly' from the `myVal` buffer....what!?</span></pre></div>
+
+<p>Notice how <code>val()</code> only returns part of the <code>he_item</code> value, but still points to the original data used in <code>myVal</code>.
+The references are the same, but the objects are not!</p>
+
+<h1>
+<a id="issuesbugs" class="anchor" href="#issuesbugs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Issues/Bugs?</h1>
+
+<p>Create an issue on this repo, or email <code>info@levyx.com</code></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/levyx/node-helium">Node-helium</a> is maintained by <a href="https://github.com/levyx">levyx</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>

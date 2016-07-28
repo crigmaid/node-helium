@@ -175,11 +175,12 @@ Deletes: <strong>800K</strong>  </p>
 <h2>
 <a id="api-usage" class="anchor" href="#api-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API Usage</h2>
 
-<p><strong>Look at Helium.pdf</strong>, it details how Helium works. Most of <code>node-helium</code>'s functions are the same as Helium's native C API, however, there are some important differences:
-1. <code>node-helium</code> makes use of a C style api. This means the javascript API looks very similar to Helium's native C API.
-2. Javascript does not have structs. So things that are structs tend to be objects.
-3. Not all objects in <code>node-helium</code> are 'real' Javascript objects. They are pointers to special objects that can be passed between Javascript and C, so you cannot directly access their properties, you must use their functions to get and set values. Look at <code>he_item</code>.</p>
-
+<p><strong>Look at Helium.pdf</strong>, it details how Helium works. Most of <code>node-helium</code>'s functions are the same as Helium's native C API, however, there are some important differences:</p>
+<ol>
+  <li><code>node-helium</code> makes use of a C style api. This means the javascript API looks very similar to Helium's native C API.</li>
+  <li>Javascript does not have structs. So things that are structs tend to be objects.</li>
+  <li>Not all objects in <code>node-helium</code> are 'real' Javascript objects. They are pointers to special objects that can be passed between Javascript and C, so you cannot directly access their properties, you must use their functions to get and set values. Look at <code>he_item</code>.</li>
+</ol>
 <p>Below are specific functions that are different or unique to <code>node-helium</code>.</p>
 
 <h2>

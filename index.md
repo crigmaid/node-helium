@@ -46,7 +46,7 @@ node example.js
 
 #### Example 1 {#example-1}
 Insert and read a simple value.
-{% endhighlight %}javascript
+{% highlight javascript %}
 var he = require( 'node-helium' );
 
 var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
@@ -69,7 +69,7 @@ he.close( myHe );
 {% endhighlight %}
 #### Example 2 {#example-2}
 Working with transactions. This example has more advanced usage, namely reuse of buffers.
-{% endhighlight %}javascript
+{% highlight javascript %}
 var he = require( 'node-helium' );
 
 var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
@@ -105,7 +105,7 @@ See the [`examples`](https://github.com/levyx/node-helium/tree/master/examples/r
 
 ## Performance Benchmarking {#performance-benchmarking}
 Execute the following to run a performance test with `node-helium`. Substitute `he://.//tmp/4g` with your own Helium URL. Remember that Node.js is always single threaded, so the test always runs on one thread.
-{% endhighlight %}javascript
+{% highlight javascript %}
 node scripts/performanceTest.js -d 'he://.//tmp/4g' -o 1000000 -v 100
 {% endhighlight %}
 
@@ -147,7 +147,7 @@ Below are specific functions that are different or unique to `node-helium`.
 
 ## he\_enumerate {#he\_enumerate}
 Works as expected, just provide a javascript function for the callback.
-{% endhighlight %}javascript
+{% highlight javascript %}
 var he = require( 'node-helium' );
 
 var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
@@ -167,7 +167,7 @@ he.close( myHe2 );
 ## he\_item {#he\_item}
 `he_item` structs in Helium need to be built by a function in `node-helium`.
 
-{% endhighlight %}javascript
+{% highlight javascript %}
 var keyBuf = new Buffer( 50 );
 var valBuf = new Buffer( 50 );
 keyBuf.write( 'peanutbutter', 'utf-8' );
@@ -190,7 +190,7 @@ testItem.key().write( 'peanutbutter' ); // Do this instead.
 
 ## he\_iterate {#he\_iterate}
 The `he_iterate` function is indirectly supported though the `func.iterate` function which implements the iteration logic with the `he_next` Helium command. Even though `he_item` is not returned, `key` and `val` still point to the buffers in the `he_item`, so modifying them will update the underlying `he_item`.
-{% endhighlight %}javascript
+{% highlight javascript %}
 var he = require( 'node-helium' );
 
 var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
@@ -222,7 +222,7 @@ he.close( myHe );
 
 ## he\_open {#he\_open}
 Use a javascript object for the `he_env` struct options.
-{% endhighlight %}javascript
+{% highlight javascript %}
 var he = require( 'node-helium' );
 
 var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
@@ -233,7 +233,7 @@ he.close( myHe );
 
 ## he\_stats {#he\_stats}
 Returns a javascript object with the info. On error, this function will return an object with `error` property set accordingly.
-{% endhighlight %}javascript
+{% highlight javascript %}
 var he = require( 'node-helium' );
 
 var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
@@ -260,7 +260,7 @@ Takes no arguments for simplicity. Will return a string with the version of Heli
 ## Common Errors {#common-errors}
 #### I seem to get `HE_ERR_ITEM_NOT_FOUND` when I have bigger/more keys even though my code is the same. {#i-seem-to-get-`he_err_item_not_found`-when-i-have-bigger/more-keys-even-though-my-code-is-the-same.}
 Make sure you use `item.set_key_len()` if you change the value of an item's key after it is created.
-{% endhighlight %}javascript
+{% highlight javascript %}
 for ( var i = 0; i < 1000000; ++i ) {
   var keyString = 'key_' + i.toString();
   testItem.set_key_len( keyString.length ); // THIS LINE IS IMPORTANT!
@@ -277,7 +277,7 @@ for ( var i = 0; i < 1000000; ++i ) {
 ---
 
 Buffers and pointers in Node.js have some quirks. Javascript likes to aggressively garbage collect, so if you reassign the buffer pointer of an item, you will get strange results.
-{% endhighlight %}javascript
+{% highlight javascript %}
 var myKey = new Buffer( 'peanutbutter', 'utf-8' );
 var myVal = new Buffer( 'jelly', 'utf-8' );
 var testItem = he.make_item( myKey, myVal, 12, 5 );
@@ -295,7 +295,7 @@ In summary, do not reassign buffers, instead, just rewrite to the buffers you in
 ---
 
 `key()` and `val()` functions for `he_item` will return a buffer with a length set to the size of the `he_item`'s current `key_len` and `val_len` respectively. But the buffer will still point to the **same** data used to construct the `he_item` initially. The following example illustrates this.
-{% endhighlight %}javascript
+{% highlight javascript %}
 var myKey = new Buffer( 'peanutbutter', 'utf-8' );
 var myVal = new Buffer( 'jelly', 'utf-8' );
 var testItem = he.make_item( myKey, myVal, 12, 5 );

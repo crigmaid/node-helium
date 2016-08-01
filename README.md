@@ -1,5 +1,5 @@
 <p align="center">
-![Node-Helium logo](img/node-heliumLogo.png)
+  <img src="img/node-heliumLogo.png">
 </p>
 # node-helium
 Node-Helium lets you use Levyx's [Helium](http://www.levyx.com/content/helium-overview) datastore with Node.js.

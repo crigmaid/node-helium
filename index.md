@@ -22,6 +22,7 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 {% highlight bash %}
 npm install node-helium_centos7.tar.gz
 {% endhighlight %}
+
 * You will be presented with a EULA, you can press `q` to skip to the end. Agree and follow the prompts to continue the installation.
 
 * You should now see the `node-modules` directory with `node-helium` inside it. The module is ready.

@@ -1,4 +1,3 @@
-
 #!/usr/bin/env ruby
 
 # checkout the readme from the master branch

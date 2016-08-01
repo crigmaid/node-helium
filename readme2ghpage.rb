@@ -19,7 +19,7 @@ File.open readme_path, "r" do |readme|
     readme.readlines.each do |line|
 
       # convert backticks to liquid
-      %w(bash ruby).each do |lang|
+      %w(bash javascript).each do |lang|
         line.gsub!("```#{lang}", "{% highlight #{lang} %}")
       end
       line.gsub!("```", "{% endhighlight %}")

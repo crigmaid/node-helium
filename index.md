@@ -318,6 +318,6 @@ Notice how `val()` only returns part of the `he_item` value, but still points to
 The references are the same, but the objects are not!
 
 
-# Issues, Bugs, Questions {#issues,-bugs,-questions}
+# Contact {#contact}
 
-Create an issue on this repo, or email us at `nodejs@levyx.com`
+For issues, bugs, or questions, create an issue on this repo, or email us at `nodejs@levyx.com`

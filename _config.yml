@@ -1,2 +1,3 @@
 syntax-highlighting:
-  enabled : true
+  enabled: true
+  css: highlights.css

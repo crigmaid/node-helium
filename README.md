@@ -1,4 +1,4 @@
-![Node-Helium logo](node-heliumLogo.png)
+<center>![Node-Helium logo](img/node-heliumLogo.png)</center>
 # node-helium
 Node-Helium lets you use Levyx's [Helium](http://www.levyx.com/content/helium-overview) datastore with Node.js.
 Using `node-helium` is nearly identical to using Helium, with a few notable quirks.

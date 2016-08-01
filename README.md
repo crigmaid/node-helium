@@ -258,6 +258,7 @@ Takes no arguments for simplicity. Will return a string with the version of Heli
 
 ## Common Errors
 #### I seem to get `HE_ERR_ITEM_NOT_FOUND` when I have bigger/more keys even though my code is the same.
+
 Make sure you use `item.set_key_len()` if you change the value of an item's key after it is created.
 ```javascript
 for ( var i = 0; i < 1000000; ++i ) {

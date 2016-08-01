@@ -4,7 +4,9 @@ layout: main
 <p align="center">
   <img src="img/node-heliumLogo.png">
 </p>
+
 # Node Helium {#node-helium}
+
 Node-Helium lets you use Levyx's [Helium](http://www.levyx.com/content/helium-overview) datastore with Node.js.
 Using `node-helium` is nearly identical to using Helium, with a few notable quirks.
 
@@ -317,4 +319,5 @@ The references are the same, but the objects are not!
 
 
 # Issues or Bugs? {#issues-or-bugs?}
+
 Create an issue on this repo, or email us at `nodejs@levyx.com`

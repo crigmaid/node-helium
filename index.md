@@ -47,7 +47,7 @@ node example.js
 
 #### Example 1
 Insert and read a simple value.
-{% highlight javascript %}
+{% highlight js %}
 var he = require( 'node-helium' );
 
 var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;

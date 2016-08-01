@@ -1,7 +1,7 @@
 <p align="center">
   <img src="img/node-heliumLogo.png">
 </p>
-# node-helium
+# Node Helium
 Node-Helium lets you use Levyx's [Helium](http://www.levyx.com/content/helium-overview) datastore with Node.js.
 Using `node-helium` is nearly identical to using Helium, with a few notable quirks.
 
@@ -144,7 +144,7 @@ Deletes: **800K**
 
 Below are specific functions that are different or unique to `node-helium`.
 
-## he\_enumerate
+## he_enumerate
 Works as expected, just provide a javascript function for the callback.
 ```javascript
 var he = require( 'node-helium' );
@@ -163,7 +163,7 @@ he.close( myHe );
 he.close( myHe2 );
 ```
 
-## he\_item
+## he_item
 `he_item` structs in Helium need to be built by a function in `node-helium`.
 
 ```javascript
@@ -187,7 +187,7 @@ testItem.key() = new Buffer( 'peanutbutter' ); // DO NOT DO THIS!
 testItem.key().write( 'peanutbutter' ); // Do this instead.
 ```
 
-## he\_iterate
+## he_iterate
 The `he_iterate` function is indirectly supported though the `func.iterate` function which implements the iteration logic with the `he_next` Helium command. Even though `he_item` is not returned, `key` and `val` still point to the buffers in the `he_item`, so modifying them will update the underlying `he_item`.
 ```javascript
 var he = require( 'node-helium' );
@@ -219,7 +219,7 @@ he.func.iterate( myHe, 4, 5, function( keySize, valueSize, key, val ) {
 he.close( myHe );
 ```
 
-## he\_open
+## he_open
 Use a javascript object for the `he_env` struct options.
 ```javascript
 var he = require( 'node-helium' );
@@ -230,7 +230,7 @@ var myHe = he.open( 'he://.//tmp/4g', 'DATASTORE', OPEN_SETTINGS, {'fanout': 30,
 he.close( myHe );
 ```
 
-## he\_stats
+## he_stats
 Returns a javascript object with the info. On error, this function will return an object with `error` property set accordingly.
 ```javascript
 var he = require( 'node-helium' );
@@ -253,11 +253,11 @@ var errorStats = he.stats( myHe ); // Calling this again after closing the datas
 console.log( errorStats.error ); // This will equal the error code
 ```
 
-## he\_version
+## he_version
 Takes no arguments for simplicity. Will return a string with the version of Helium node-helium is using.
 
 ## Common Errors
-#### I seem to get `HE_ERR_ITEM_NOT_FOUND` when I have bigger/more keys even though my code is the same.
+**I seem to get `HE_ERR_ITEM_NOT_FOUND` when I have bigger/more keys even though my code is the same.**
 
 Make sure you use `item.set_key_len()` if you change the value of an item's key after it is created.
 ```javascript
@@ -313,5 +313,5 @@ Notice how `val()` only returns part of the `he_item` value, but still points to
 The references are the same, but the objects are not!
 
 
-# Issues/Bugs?
+# Issues or Bugs?
 Create an issue on this repo, or email us at `nodejs@levyx.com`

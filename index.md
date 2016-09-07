@@ -39,7 +39,7 @@ npm install node-helium_centos7.tar.gz
 Helium requires a device to write to. If you do not want to use a dedicated device, you can create a file and use it to test. The default test configuration has this file at `/tmp/4g`.
 
 {% highlight bash %}
-dd if=/dev/zero of=/tmp/4g bs=1k count=$((4 * 1024 * 1024))
+dd if=/dev/zero of=/tmp/4g bs=1k count=1 seek=$((4*1024*1024-1))
 {% endhighlight %}
 
 Now you can write your code, create `example.js` inside your project directory and copy-paste the following examples to it. Run the program with:

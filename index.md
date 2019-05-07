@@ -18,7 +18,8 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 ## Installing {#installing}
 * Install [Node.js](https://nodejs.org/en/download/package-manager/) v6.x (LTS)
 * Create a directory for your project.
-* Download the `node-helium.tar.gz` file [here](http://packages.levyx.com/public/bindings), selecting the particular build for your operating system.
+* Download and install the latest Helium.
+* To download node-helium package: 
 {% highlight bash %}
   wget http://packages.levyx.com/public/bindings/node-helium_3.3.1.tar.gz
 {% endhighlight %}

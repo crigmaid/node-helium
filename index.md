@@ -16,15 +16,15 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 * CentOS 7.x and RHEL 7.x
 
 ## Installing {#installing}
-* Install [Node.js](https://nodejs.org/en/download/package-manager/) v4.x (LTS)
+* Install [Node.js](https://nodejs.org/en/download/package-manager/) v6.x (LTS)
 * Create a directory for your project.
 * Download the `node-helium.tar.gz` file [here](http://packages.levyx.com/public/bindings), selecting the particular build for your operating system.
 {% highlight bash %}
-  wget http://packages.levyx.com/public/bindings/node-helium_centos7.tar.gz
+  wget http://packages.levyx.com/public/bindings/node-helium_3.3.1.tar.gz
 {% endhighlight %}
 * Then call the following. If you downloaded a package for a different OS, change the filename after `install`
 {% highlight bash %}
-npm install node-helium_centos7.tar.gz
+npm install node-helium_3.3.1.tar.gz
 {% endhighlight %}
 
 * You will be presented with a EULA, you can press `q` to skip to the end. Agree and follow the prompts to continue the installation.
@@ -39,7 +39,7 @@ npm install node-helium_centos7.tar.gz
 Helium requires a device to write to. If you do not want to use a dedicated device, you can create a file and use it to test. The default test configuration has this file at `/tmp/4g`.
 
 {% highlight bash %}
-dd if=/dev/zero of=/tmp/4g bs=1k count=1 seek=$((4*1024*1024-1))
+dd if=/dev/zero of=/tmp/4g bs=1k count=$((4 * 1024 * 1024))
 {% endhighlight %}
 
 Now you can write your code, create `example.js` inside your project directory and copy-paste the following examples to it. Run the program with:
@@ -143,30 +143,12 @@ Deletes: **800K**
 
 ## API Usage {#api-usage}
 **Look at [Helium.pdf](https://github.com/levyx/node-helium/blob/master/helium.pdf)**, it details how Helium works. Most of `node-helium`'s functions are the same as Helium's native C API, however, there are some important differences:  
+
 1. `node-helium` makes use of a C style api. This means the javascript API looks very similar to Helium's native C API.  
 2. Javascript does not have structs. So things that are structs tend to be objects.  
 3. Not all objects in `node-helium` are 'real' Javascript objects. They are pointers to special objects that can be passed between Javascript and C, so you cannot directly access their properties, you must use their functions to get and set values. Look at `he_item`.  
 
 Below are specific functions that are different or unique to `node-helium`.
-
-## he_enumerate {#he_enumerate}
-Works as expected, just provide a javascript function for the callback.
-{% highlight javascript %}
-var he = require( 'node-helium' );
-
-var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
-var myHe = he.open( 'he://.//tmp/4g', 'DATA1', OPEN_SETTINGS, null );
-var myHe2 = he.open( 'he://.//tmp/4g', 'DATA2', he.HE_O_CREATE | he.HE_O_VOLUME_CREATE, null );
-
-var callback = function( err, datastoreList ) {
-  console.log( datastoreList ); // datastoreList is a list of datastore names.
-}
-
-var ret = he.enumerate( 'he://.//tmp/4g', callback );
-
-he.close( myHe );
-he.close( myHe2 );
-{% endhighlight %}
 
 ## he_item {#he_item}
 `he_item` structs in Helium need to be built by a function in `node-helium`.

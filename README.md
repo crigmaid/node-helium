@@ -147,25 +147,6 @@ Deletes: **800K**
 
 Below are specific functions that are different or unique to `node-helium`.
 
-## he_enumerate
-Works as expected, just provide a javascript function for the callback.
-```javascript
-var he = require( 'node-helium' );
-
-var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
-var myHe = he.open( 'he://.//tmp/4g', 'DATA1', OPEN_SETTINGS, null );
-var myHe2 = he.open( 'he://.//tmp/4g', 'DATA2', he.HE_O_CREATE | he.HE_O_VOLUME_CREATE, null );
-
-var callback = function( err, datastoreList ) {
-  console.log( datastoreList ); // datastoreList is a list of datastore names.
-}
-
-var ret = he.enumerate( 'he://.//tmp/4g', callback );
-
-he.close( myHe );
-he.close( myHe2 );
-```
-
 ## he_item
 `he_item` structs in Helium need to be built by a function in `node-helium`.
 

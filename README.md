@@ -18,11 +18,11 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 * Download and install the latest Helium.
 * To download node-helium package: 
 ```bash
-  wget http://packages.levyx.com/public/bindings/node-helium_3.3.1.tar.gz
+  wget http://packages.levyx.com/public/bindings/node-helium-3.3.1.tar.gz
 ```
 * Then call the following. If you downloaded a package for a different OS, change the filename after `install`
 ```bash
-npm install node-helium_3.3.1.tar.gz
+npm install node-helium-3.3.1.tar.gz
 ```
 
 * You will be presented with a EULA, you can press `q` to skip to the end. Agree and follow the prompts to continue the installation.

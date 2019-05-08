@@ -18,7 +18,6 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 ## Installing {#installing}
 * Install [Node.js](https://nodejs.org/en/download/package-manager/) v6.x (LTS)
 * Create a directory for your project.
-* Download and install the latest Helium.
 * To download node-helium package: 
 {% highlight bash %}
   wget http://packages.levyx.com/public/bindings/node-helium-3.3.1.tar.gz
@@ -30,7 +29,7 @@ npm install node-helium-3.3.1.tar.gz
 
 * You will be presented with a EULA, you can press `q` to skip to the end. Agree and follow the prompts to continue the installation.
 
-* You should now see the `node-modules` directory with `node-helium` inside it. The module is ready.
+* You should now see the `node_modules` directory with `node-helium` inside it. The module is ready.
 
 ---
 
@@ -106,7 +105,7 @@ he.close( myHe );
 {% endhighlight %}
 
 #### REST Example {#rest-example}
-See the [`examples`](https://github.com/levyx/node-helium/tree/master/examples/rest) directory of this repo.
+See more REST examples [here](https://github.com/levyx/node-helium/tree/master/examples/rest)
 
 ## Performance Benchmarking {#performance-benchmarking}
 Execute the following to run a performance test with `node-helium`. Substitute `he://.//tmp/4g` with your own Helium URL. Remember that Node.js is always single threaded, so the test always runs on one thread.

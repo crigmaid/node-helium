@@ -16,7 +16,7 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 * CentOS 7.x and RHEL 7.x
 
 ## Installing {#installing}
-* Install [Node.js](https://nodejs.org/en/download/package-manager/) v6.x (LTS)
+* Install [Node.js](https://nodejs.org/en/download/package-manager/) v10.x (LTS)
 * Create a directory for your project.
 * To download node-helium package: 
 {% highlight bash %}
@@ -57,13 +57,13 @@ var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUN
 
 var myHe = he.open( 'he://.//tmp/4g', 'DATASTORE', OPEN_SETTINGS, null );
 
-var myKey = new Buffer( 'peanutbutter', 'utf-8' );
-var myVal = new Buffer( 'jelly', 'utf-8' );
+var myKey = new Buffer.from( 'peanutbutter', 'utf-8' );
+var myVal = new Buffer.from( 'jelly', 'utf-8' );
 var testItem = he.make_item( myKey, myVal, 12, 5 );
 he.insert( myHe, testItem );
 
-var lookKey = new Buffer( 'peanutbutter', 'utf-8' );
-var receiveBuf = new Buffer( 50 );
+var lookKey = new Buffer.from( 'peanutbutter', 'utf-8' );
+var receiveBuf = new Buffer.allocUnsafe( 50 );
 var lookupItem = he.make_item( lookKey, receiveBuf, 12, 5 );
 he.lookup( myHe, lookupItem, 0, 5 );
 
@@ -80,8 +80,8 @@ var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUN
 
 var myHe = he.open( 'he://.//tmp/4g', 'DATASTORE', OPEN_SETTINGS, null );
 
-var keyBuf = new Buffer( 50 );
-var valBuf = new Buffer( 50 );
+var keyBuf = new Buffer.alloc( 50 );
+var valBuf = new Buffer.allocUnsafe( 50 );
 
 keyBuf.write( 'peanutbutter', 'utf-8' );
 valBuf.write( 'jelly', 'utf-8' );
@@ -150,12 +150,31 @@ Deletes: **800K**
 
 Below are specific functions that are different or unique to `node-helium`.
 
+## he_enumerate {#he_enumerate}
+Works as expected, just provide a javascript function for the callback.
+{% highlight javascript %}
+var he = require( 'node-helium' );
+
+var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
+var myHe = he.open( 'he://.//tmp/4g', 'DATA1', OPEN_SETTINGS, null );
+var myHe2 = he.open( 'he://.//tmp/4g', 'DATA2', he.HE_O_CREATE | he.HE_O_VOLUME_CREATE, null );
+
+var callback = function( err, datastoreList ) {
+  console.log( datastoreList ); // datastoreList is a list of datastore names.
+}
+
+var ret = he.enumerate( 'he://.//tmp/4g', callback );
+
+he.close( myHe );
+he.close( myHe2 );
+{% endhighlight %}
+
 ## he_item {#he_item}
 `he_item` structs in Helium need to be built by a function in `node-helium`.
 
 {% highlight javascript %}
-var keyBuf = new Buffer( 50 );
-var valBuf = new Buffer( 50 );
+var keyBuf = new Buffer.alloc( 50 );
+var valBuf = new Buffer.allocUnsafe( 50 );
 keyBuf.write( 'peanutbutter', 'utf-8' );
 valBuf.write( 'jelly', 'utf-8' );
 var testItem = he.make_item( keyBuf, valBuf, 12, 5 ); // testItem can be used like he_item
@@ -170,7 +189,7 @@ testItem.set_key_len( 5 ); // Set the key length to 5.
 testItem.set_val_len( 5 ); // Set the val length to 5.
 
 // Only write to buffers you get with key() or val(), do not set them.
-testItem.key() = new Buffer( 'peanutbutter' ); // DO NOT DO THIS!
+testItem.key() = new Buffer.from( 'peanutbutter' ); // DO NOT DO THIS!
 testItem.key().write( 'peanutbutter' ); // Do this instead.
 {% endhighlight %}
 
@@ -182,18 +201,18 @@ var he = require( 'node-helium' );
 var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
 var myHe = he.open( 'he://.//tmp/4g', 'DATASTORE', OPEN_SETTINGS, null );
 
-var myKey = new Buffer( 'aaaa', 'utf-8' );
-var myVal = new Buffer( '11111', 'utf-8' );
+var myKey = new Buffer.from( 'aaaa', 'utf-8' );
+var myVal = new Buffer.from( '11111', 'utf-8' );
 var testItem = he.make_item( myKey, myVal, 4, 5 );
 he.insert( myHe, testItem );
 
-var myKey2 = new Buffer( 'bbbb', 'utf-8' );
-var myVal2 = new Buffer( '22222', 'utf-8' );
+var myKey2 = new Buffer.from( 'bbbb', 'utf-8' );
+var myVal2 = new Buffer.from( '22222', 'utf-8' );
 var testItem2 = he.make_item( myKey2, myVal2, 4, 5 );
 he.insert( myHe, testItem2 );
 
-var myKey3 = new Buffer( 'cccc', 'utf-8' );
-var myVal3 = new Buffer( '33333', 'utf-8' );
+var myKey3 = new Buffer.from( 'cccc', 'utf-8' );
+var myVal3 = new Buffer.from( '33333', 'utf-8' );
 var testItem3 = he.make_item( myKey3, myVal3, 4, 5 );
 he.insert( myHe, testItem3 );
 
@@ -225,8 +244,8 @@ var he = require( 'node-helium' );
 var OPEN_SETTINGS = he.HE_O_CREATE | he.HE_O_VOLUME_CREATE | he.HE_O_VOLUME_TRUNCATE;
 var myHe = he.open( 'he://.//tmp/4g', 'DATASTORE', OPEN_SETTINGS, null );
 
-var myKey = new Buffer( 'peanutbutter', 'utf-8' );
-var myVal = new Buffer( 'jelly', 'utf-8' );
+var myKey = new Buffer.from( 'peanutbutter', 'utf-8' );
+var myVal = new Buffer.from( 'jelly', 'utf-8' );
 var testItem = he.make_item( myKey, myVal, 12, 5 );
 he.insert( myHe, testItem );
 
@@ -265,13 +284,13 @@ for ( var i = 0; i < 1000000; ++i ) {
 
 Buffers and pointers in Node.js have some quirks. Javascript likes to aggressively garbage collect, so if you reassign the buffer pointer of an item, you will get strange results.
 {% highlight javascript %}
-var myKey = new Buffer( 'peanutbutter', 'utf-8' );
-var myVal = new Buffer( 'jelly', 'utf-8' );
+var myKey = new Buffer.from( 'peanutbutter', 'utf-8' );
+var myVal = new Buffer.from( 'jelly', 'utf-8' );
 var testItem = he.make_item( myKey, myVal, 12, 5 );
 he.insert( myHe, testItem );
 
-myKey = new Buffer( 'peanutbutter', 'utf-8' ); // Do not reassign myKey to a new buffer.
-myVal = new Buffer( 50 ); // Do not reassign myVal to a new buffer
+myKey = new Buffer.from( 'peanutbutter', 'utf-8' ); // Do not reassign myKey to a new buffer.
+myVal = new Buffer.allocUnsafe( 50 ); // Do not reassign myVal to a new buffer
 he.lookup( myHe, testItem, 0, 5 );
 
 console.log( myVal.toString( 'utf-8', 0, 5 ) ); // This will print NOTHING, you would expect 'jelly'
@@ -283,8 +302,8 @@ In summary, do not reassign buffers, instead, just rewrite to the buffers you in
 
 `key()` and `val()` functions for `he_item` will return a buffer with a length set to the size of the `he_item`'s current `key_len` and `val_len` respectively. But the buffer will still point to the **same** data used to construct the `he_item` initially. The following example illustrates this.
 {% highlight javascript %}
-var myKey = new Buffer( 'peanutbutter', 'utf-8' );
-var myVal = new Buffer( 'jelly', 'utf-8' );
+var myKey = new Buffer.from( 'peanutbutter', 'utf-8' );
+var myVal = new Buffer.from( 'jelly', 'utf-8' );
 var testItem = he.make_item( myKey, myVal, 12, 5 );
 
 testItem.set_val_len( 3 );

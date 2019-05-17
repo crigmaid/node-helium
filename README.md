@@ -107,7 +107,7 @@ See more REST examples [here](https://github.com/levyx/node-helium/tree/master/e
 ## Performance Benchmarking
 Execute the following to run a performance test with `node-helium`. Substitute `he://.//tmp/4g` with your own Helium URL. Remember that Node.js is always single threaded, so the test always runs on one thread.
 ```javascript
-node scripts/performanceTest.js -d 'he://.//tmp/4g' -o 1000000 -v 100
+node node_modules/node-helium/scripts/performanceTest.js -d 'he://.//tmp/4g' -o 1000000 -v 100
 ```
 
 ## Performance  
@@ -170,6 +170,8 @@ he.close( myHe2 );
 `he_item` structs in Helium need to be built by a function in `node-helium`.
 
 ```javascript
+var he = require( 'node-helium' );
+
 var keyBuf = new Buffer.alloc( 50 );
 var valBuf = new Buffer.allocUnsafe( 50 );
 keyBuf.write( 'peanutbutter', 'utf-8' );

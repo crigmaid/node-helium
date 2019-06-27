@@ -18,13 +18,14 @@ Using `node-helium` is nearly identical to using Helium, with a few notable quir
 ## Installing {#installing}
 * Install [Node.js](https://nodejs.org/en/download/package-manager/) v10.x (LTS)
 * Create a directory for your project.
-* To download node-helium package: 
+* To download latest node-helium package: 
 {% highlight bash %}
-  wget http://packages.levyx.com/public/bindings/node-helium-3.3.1.tar.gz
+  wget http://packages.levyx.com/public/bindings/node-helium-3.4.0-node-v10.15.3.tar.gz
 {% endhighlight %}
-* Then call the following. If you downloaded a package for a different OS, change the filename after `install`
+If need older version of node-helium package, you can find it at [here](http://packages.levyx.com/public/bindings/) and use `wget` command to download.
+* Then call the following. If you downloaded a package for a different OS or a different version, change the filename after `install`
 {% highlight bash %}
-npm install node-helium-3.3.1.tar.gz
+npm install node-helium-3.4.0-node-v10.15.3.tar.gz
 {% endhighlight %}
 
 * You will be presented with a EULA, you can press `q` to skip to the end. Agree and follow the prompts to continue the installation.

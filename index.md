@@ -286,6 +286,44 @@ This is an operation that discards all operations on a transaction since the las
 he.discard( myTx );
 {% endhighlight %}
 
+## he_update {#he_update}
+This operation updates an item with a new value and value length.
+Following from the example we have for he_item, lets imagine we have an item testItemA with key KEY and value VALUE already inserted in our datastore. We created a new item testItemB with key KEY and value NEWVALUE 
+{% highlight javascript %}
+he.update( myHe, testItemB );
+{% endhighlight %}
+Helium will first check to see if the datastore myHe contains an item with key KEY. If it does not find one, Helium will perform a standard insert, otherwise it will update the item with the new item value.
+
+## he_insert {#he_insert}
+This operation inserts an item to a datastore. The operation will return with an error if an item already exists with the same key, as opposed to he_update which will override the original item.
+{% highlight javascript %}
+he.insert( myHe, testItem );
+{% endhighlight %}
+
+## he_replace {#he_replace}
+This operation replaces an item with the same key in a datastore. The operation will return with an error if no item exists with the same key, as opposed to he_update which will perform a standard insert.
+{% highlight javascript %}
+he.replace( myHe, testItem );
+{% endhighlight %}
+
+## he_delete {#he_delete}
+This operation simply deletes an item from a datastore. The key and key_len must be set for this operation to succeed.
+{% highlight javascript %}
+he.delete( myHe, testItem );
+{% endhighlight %}
+
+## he_lookup {#he_lookup}
+This method requires the key and key_len to be populated and val to be populated with a buffer. Then the method will search for the item with the proper key and populate val and val_len.
+{% highlight javascript %}
+he.lookup( myHe, testItem );
+{% endhighlight %}
+
+## he_exists {#he_exists}
+This operation returns a nonzero value if an item exists in a datastore with a key given by an item as follows.
+{% highlight javascript %}
+he.exists( myHe, testItem );
+{% endhighlight %}
+
 ## he_stats {#he_stats}
 Returns a javascript object with the info. On error, this function will return an object with `error` property set accordingly.
 {% highlight javascript %}

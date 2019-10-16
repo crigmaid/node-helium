@@ -239,6 +239,53 @@ var myHe = he.open( 'he://.//tmp/4g', 'DATASTORE', OPEN_SETTINGS, {'fanout': 30,
 he.close( myHe );
 {% endhighlight %}
 
+## he_close {#he_close}
+Invalidate all references to a helium datastore.
+See he_open above for usage and example.
+
+## he_rename {#he_rename}
+Renames a datastore.
+{% highlight javascript %}
+he.rename( myHe, 'New Name');
+{% endhighlight %}
+
+## he_remove {#he_remove}
+Remove a datastore.
+{% highlight javascript %}
+he.remove( myHe );
+{% endhighlight %}
+
+## he_remove_volume {#he_remove_volume}
+This is the equivalent of truncating a volume and requires both a valid URL and a flagto confirm that this is not done by mistake.
+{% highlight javascript %}
+he.remove_volume( 'he://.//tmp/4g', he.HE_O_VOLUME_TRUNCATE );
+{% endhighlight %}
+
+## he_transaction {#he_transaction}
+Returns a handle to a transaction on a datastore.
+{% highlight javascript %}
+var myTx = he.transaction( myHe );
+{% endhighlight %}
+
+## he_transaction_datastore {#he_transaction_datastore}
+Reassign a transaction to a new datastore. All previous operations remain on the previous datastore, and all following operations will proceed on the new datastore. 
+{% highlight javascript %}
+var myTx = he.transaction( myHe1 );
+he.transaction_datastore( myTx, myHe2 );
+{% endhighlight %}
+
+## he_commit {#he_commit}
+This is an operation on a transaction that applies all previous operations on a transaction to the datastore it belongs to.
+{% highlight javascript %}
+he.commit( myTx );
+{% endhighlight %}
+
+## he_discard {#he_discard}
+This is an operation that discards all operations on a transaction since the last call to commit.
+{% highlight javascript %}
+he.discard( myTx );
+{% endhighlight %}
+
 ## he_stats {#he_stats}
 Returns a javascript object with the info. On error, this function will return an object with `error` property set accordingly.
 {% highlight javascript %}
@@ -264,6 +311,14 @@ console.log( errorStats.error ); // This will equal the error code
 
 ## he_version {#he_version}
 Takes no arguments for simplicity. Will return a string with the version of Helium node-helium is using.
+
+## he_is_valid {#he_is_valid} | he_is_transaction {#he_is_transaction} | he_is_read_only {#he_is_read_only}
+All of these are validation checks that read a datastore handle return a nonzero value if the handle points to a datastore that is valid, a transaction, or read only, respectively.
+{$ highlight javascript %}
+he.is_valid( myHe );
+he.is_transaction( myHe);
+he.is_read_only( myHe );
+{% endhighlight %}
 
 ## Common Errors {#common-errors}
 **I seem to get `HE_ERR_ITEM_NOT_FOUND` when I have bigger/more keys even though my code is the same.**

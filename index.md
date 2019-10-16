@@ -307,15 +307,36 @@ he.replace( myHe, testItem );
 {% endhighlight %}
 
 ## he_delete {#he_delete}
-This operation simply deletes an item from a datastore. The key and key_len must be set for this operation to succeed.
+This operation simply deletes an item from a datastore. The item must be fully populated for this operation to succeed.
 {% highlight javascript %}
 he.delete( myHe, testItem );
 {% endhighlight %}
 
 ## he_lookup {#he_lookup}
-This method requires the key and key_len to be populated and val to be populated with a buffer. Then the method will search for the item with the proper key and populate val and val_len.
+This method requires the key and key_len to be populated and val to be populated with a buffer. Then the method will search for the item with the proper key and populate the value with the value starting at the byte indicated by the third parameter, with a length indicated by the fourth parameter. The format is therefore datastore, item, offset, length.
 {% highlight javascript %}
-he.lookup( myHe, testItem );
+he.lookup( myHe, testItem, 0, 10 );
+{% endhighlight %}
+
+## he_delete_lookup {#he_delete_lookup}
+This method performs a lookup and deletes the item found.
+{% highlight javascript %}
+he.delete_lookup( myHe, testItem, 0, 10 );
+{% endhighlight %}
+
+## he_next | he_prev {#he_next}
+These methods operate the same as he_lookup, except that the item is populated with the value before (prev) or after (next) the key set in the item.
+{% highlight javascript %}
+he.prev( myHe, testItem, 0, 10 );
+he.next( myHe, testItem, 0, 10 );
+{% endhighlight %}
+
+## he_merge {#he_merge}
+This method combines the functionality of lookup and update in a single operation. The method requires a datastore, an item populated with its key and key_len, and a callback function to operate on the item before updating it to the datastore.
+{% highlight javascript %}
+he.func.merge( myHe, testItem, function( item ) { 
+    console.log( item.key.toString() );
+}); 
 {% endhighlight %}
 
 ## he_exists {#he_exists}
@@ -350,12 +371,19 @@ console.log( errorStats.error ); // This will equal the error code
 ## he_version {#he_version}
 Takes no arguments for simplicity. Will return a string with the version of Helium node-helium is using.
 
-## he_is_valid {#he_is_valid} | he_is_transaction {#he_is_transaction} | he_is_read_only {#he_is_read_only}
+## he_is_valid | he_is_transaction | he_is_read_only {#he_is_read_only}
 All of these are validation checks that read a datastore handle return a nonzero value if the handle points to a datastore that is valid, a transaction, or read only, respectively.
 {% highlight javascript %}
 he.is_valid( myHe );
 he.is_transaction( myHe);
 he.is_read_only( myHe );
+{% endhighlight %}
+
+## he_perror | he_strerror {#he_strerror}
+he_perror will convert the value of the variable errno to a printable String. he_strerror will read an int value error and return a printable String.
+{% highlight javascript %}
+he.perror();
+he.strerror(-131);
 {% endhighlight %}
 
 ## Common Errors {#common-errors}

@@ -314,7 +314,7 @@ Takes no arguments for simplicity. Will return a string with the version of Heli
 
 ## he_is_valid {#he_is_valid} | he_is_transaction {#he_is_transaction} | he_is_read_only {#he_is_read_only}
 All of these are validation checks that read a datastore handle return a nonzero value if the handle points to a datastore that is valid, a transaction, or read only, respectively.
-{$ highlight javascript %}
+{% highlight javascript %}
 he.is_valid( myHe );
 he.is_transaction( myHe);
 he.is_read_only( myHe );
